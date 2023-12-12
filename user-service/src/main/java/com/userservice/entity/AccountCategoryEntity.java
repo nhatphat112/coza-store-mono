@@ -1,5 +1,6 @@
 package com.userservice.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.yaml.snakeyaml.events.Event;
 
@@ -13,17 +14,13 @@ public class AccountCategoryEntity {
     private int id;
     @Column(name = "account_category_name")
     private String accountCategoryName;
+    @JsonIgnore
     @OneToMany(mappedBy = "accountCategory")
     private Set<UserEntity> userEntities;
 
     public AccountCategoryEntity() {
     }
 
-    public AccountCategoryEntity(int id, String accountCategoryName, Set<UserEntity> userEntities) {
-        this.id = id;
-        this.accountCategoryName = accountCategoryName;
-        this.userEntities = userEntities;
-    }
 
     public int getId() {
         return id;
@@ -40,11 +37,11 @@ public class AccountCategoryEntity {
     public void setAccountCategoryName(String accountCategoryName) {
         this.accountCategoryName = accountCategoryName;
     }
-
+    @JsonIgnore
     public Set<UserEntity> getUserEntities() {
         return userEntities;
     }
-
+    @JsonIgnore
     public void setUserEntities(Set<UserEntity> userEntities) {
         this.userEntities = userEntities;
     }

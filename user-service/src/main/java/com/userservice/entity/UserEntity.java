@@ -2,11 +2,13 @@ package com.userservice.entity;
 
 import jakarta.persistence.*;
 
-@Entity(name = "user")
+@Entity
+@Table(name ="users")
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @Column(name = "id")
+    private int id;
     @Column(name = "full_name")
     private String fullName;
     @Column(name = "user_name")
@@ -28,16 +30,6 @@ public class UserEntity {
     public UserEntity() {
     }
 
-    public UserEntity(Integer id, String fullName, String username, String password, String email, RoleEntity role, AccountCategoryEntity accountCategory, AccountStatusEntity accountStatus) {
-        this.id = id;
-        this.fullName = fullName;
-        this.username = username;
-        this.password = password;
-        this.email = email;
-        this.role = role;
-        this.accountCategory = accountCategory;
-        this.accountStatus = accountStatus;
-    }
 
     public Integer getId() {
         return id;

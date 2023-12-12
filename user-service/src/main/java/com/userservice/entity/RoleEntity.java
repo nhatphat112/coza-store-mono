@@ -1,10 +1,11 @@
 package com.userservice.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.Set;
 
-@Entity(name = "role")
+@Entity(name = "roles")
 public class RoleEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -13,18 +14,13 @@ public class RoleEntity {
     private String roleName;
     @Column(name = "description")
     private String description;
+    @JsonIgnore
     @OneToMany(mappedBy = "role")
     private Set<UserEntity> userEntities;
 
     public RoleEntity() {
     }
 
-    public RoleEntity(Integer id, String roleName, String description, Set<UserEntity> userEntities) {
-        this.id = id;
-        this.roleName = roleName;
-        this.description = description;
-        this.userEntities = userEntities;
-    }
 
     public Integer getId() {
         return id;
@@ -49,11 +45,11 @@ public class RoleEntity {
     public void setDescription(String description) {
         this.description = description;
     }
-
+    @JsonIgnore
     public Set<UserEntity> getUserEntities() {
         return userEntities;
     }
-
+    @JsonIgnore
     public void setUserEntities(Set<UserEntity> userEntities) {
         this.userEntities = userEntities;
     }
