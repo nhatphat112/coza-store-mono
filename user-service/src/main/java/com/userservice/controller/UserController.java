@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.xml.transform.OutputKeys;
 
 @RestController
-@RequestMapping("/api/user-service")
+@RequestMapping("/api/user")
 public class UserController {
     private Gson gson = new Gson();
     private Logger logger = LoggerFactory.getLogger(UserController.class);
