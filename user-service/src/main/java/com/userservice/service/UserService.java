@@ -1,19 +1,15 @@
 package com.userservice.service;
 
-import com.google.gson.Gson;
 import com.userservice.entity.UserEntity;
 import com.userservice.payload.response.AllUserResponse;
 import com.userservice.payload.response.UserReponse;
+import com.userservice.payload.response.GetUserByUsernameOrPasswordResponse;
 import com.userservice.repository.UserRepository;
 import com.userservice.service.imp.UserServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.AutoConfigureOrder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class UserService implements UserServiceImp {
@@ -39,5 +35,22 @@ public class UserService implements UserServiceImp {
             response.getUserList().add(userReponse);
         }
         return response;
+    }
+
+    @Override
+    public GetUserByUsernameOrPasswordResponse findUser(String username, String email) {
+        for(UserEntity user : userRepository.findByUsernameOrEmail(username,email)){
+            return GetUserByUsernameOrPasswordResponse.builder()
+                    .id(user.getId())
+                    .fullName(user.getFullName())
+                    .email(user.getEmail())
+                    .username(username)
+                    .roleId(user.getRole().getId())
+                    .accountCategoryId(user.getAccountCategory().getId())
+                    .accountStatusId(user.getAccountStatus().getId())
+                    .password(user.getPassword())
+                    .build();
+        }
+        return null;
     }
 }

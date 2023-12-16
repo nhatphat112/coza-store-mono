@@ -1,6 +1,7 @@
 package com.userservice.controller;
 
 import com.google.gson.Gson;
+import com.userservice.payload.request.GetUserByUserNameOrEmailRequest;
 import com.userservice.payload.response.BaseResponse;
 import com.userservice.repository.AccountStatusRepository;
 import com.userservice.service.imp.AccountStatusServiceImp;
@@ -11,15 +12,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.xml.transform.OutputKeys;
 
 @RestController
-@RequestMapping("/api/user-service")
+@RequestMapping("/api/user")
 public class UserController {
     private Gson gson = new Gson();
     private Logger logger = LoggerFactory.getLogger(UserController.class);
@@ -46,5 +44,16 @@ public class UserController {
         response.setMessage("List Account Status");
         logger.info("Response:"+gson.toJson(response));
         return new ResponseEntity<>(response,HttpStatus.OK);
+    }
+    @PostMapping("/get-user-by-username-or-email")
+    public ResponseEntity<?> getUserByUserNameOrEmail(@RequestBody GetUserByUserNameOrEmailRequest request){
+        logger.info("Request:"+gson.toJson(request));
+        BaseResponse baseResponse = new BaseResponse();
+        baseResponse.setMessage("Find user by username or email.");
+        baseResponse.setStatusCode(200);
+        baseResponse.setData(userServiceImp.findUser(request.getUsername(), request.getEmail()));
+        logger.info("Response:"+gson.toJson(baseResponse));
+        return new ResponseEntity<>(baseResponse,HttpStatus.OK);
+
     }
 }
