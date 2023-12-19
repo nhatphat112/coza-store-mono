@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 
-public class UserReponse {
+public class UserEntityResponse {
     private int id;
 
     private String fullName;

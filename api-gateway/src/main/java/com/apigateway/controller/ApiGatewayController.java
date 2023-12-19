@@ -2,14 +2,12 @@ package com.apigateway.controller;
 
 import com.apigateway.payload.request.GetUserByUsernameOrEmailRequest;
 import com.apigateway.payload.response.BaseResponse;
-import com.apigateway.payload.response.GetUserByUsernameOrPasswordResponse;
+import com.apigateway.payload.response.UserResponse;
 import com.apigateway.utils.JwtHelper;
 import com.google.gson.Gson;
-import com.netflix.discovery.converters.Auto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.flyway.FlywayDataSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +16,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/api")
@@ -52,9 +49,10 @@ public class ApiGatewayController {
                .retrieve()
                .bodyToMono(BaseResponse.class)
                .block();
-        GetUserByUsernameOrPasswordResponse response =null;
+        UserResponse response =null;
        if(baseResponse.getStatusCode()==200){
-               response = gson.fromJson(gson.toJson(baseResponse.getData()),GetUserByUsernameOrPasswordResponse.class);
+
+               response = gson.fromJson(gson.toJson(baseResponse.getData()), UserResponse.class);
        }
         return new ResponseEntity<>(response,HttpStatus.OK);
     }
