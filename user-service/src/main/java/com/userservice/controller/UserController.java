@@ -2,6 +2,7 @@ package com.userservice.controller;
 
 import com.google.gson.Gson;
 import com.userservice.payload.request.GetUserByUserNameOrEmailRequest;
+import com.userservice.payload.request.UserByUsernameOrEmailAndPasswordRequest;
 import com.userservice.payload.response.BaseResponse;
 import com.userservice.repository.AccountStatusRepository;
 import com.userservice.service.imp.AccountStatusServiceImp;
@@ -56,4 +57,15 @@ public class UserController {
         return new ResponseEntity<>(baseResponse,HttpStatus.OK);
 
     }
+    @PostMapping("/get-user-by-username-or-email-and-password")
+    public ResponseEntity<?> getUserByUserNameOrEmailAndPassword(@RequestBody UserByUsernameOrEmailAndPasswordRequest request){
+        logger.info("getUserByUserNameOrEmailAndPassword request:"+gson.toJson(request));
+        BaseResponse baseResponse = BaseResponse.builder()
+                .message("get-user-by-username-or-email-and-password")
+                .statusCode(200)
+                .data(userServiceImp.findUser(request.getUsername(), request.getEmail(),request.getPassword()))
+                .build();
+        return new ResponseEntity<>(baseResponse,HttpStatus.OK);
+    }
+
 }
